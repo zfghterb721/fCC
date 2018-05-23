@@ -1,0 +1,15 @@
+ {
+    "name": "Fortify Crystal Commerce",
+    "version": "1.0",
+    "description": "Adds POS capabilities to Crystal Commerce!",
+    "permissions": ["tabs", "*://alvarandhurriks-pos.crystalcommerce.com/*"],
+  "content_scripts": [
+    {
+	  "run_at": "document_end",
+      "matches": ["*://alvarandhurriks-pos.crystalcommerce.com/*"],
+      "js": ["socket.io.js", "jquery.js", "background.js"],
+	  "all_frames": true
+    }
+  ],
+    "manifest_version": 2
+  }
