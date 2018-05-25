@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/zfghterb721/fCC#readme",
   "dependencies": {
+    "@slack/client": "^4.2.2",
+    "dotenv": "^5.0.1",
     "mongodb": "^3.1.0-beta4",
     "socketio": "^1.0.0"
   }
