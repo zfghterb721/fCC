@@ -1,0 +1,23 @@
+{
+  "name": "fortifycrystalcommerce",
+  "version": "1.0.0",
+  "description": "Adds extra accounting functionality to crystal commerce",
+  "main": "fCC.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zfghterb721/fCC.git"
+  },
+  "author": "zfghterb721",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zfghterb721/fCC/issues"
+  },
+  "homepage": "https://github.com/zfghterb721/fCC#readme",
+  "dependencies": {
+    "mongodb": "^3.1.0-beta4",
+    "socketio": "^1.0.0"
+  }
+}
