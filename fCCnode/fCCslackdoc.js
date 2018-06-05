@@ -4,8 +4,8 @@ var dateFormat = require('dateformat');
 const { WebClient } = require('@slack/client');
 var GoogleSpreadsheet = require('google-spreadsheet');
 var creds = require('./client_secret.json');
-var doc = new GoogleSpreadsheet(process.env.DOC_TOKEN);
 require('dotenv').config()
+var doc = new GoogleSpreadsheet(process.env.DOC_TOKEN);
 
 // An access token (from your Slack app or custom integration - xoxp, xoxb, or xoxa)
 const token = process.env.SLACK_TOKEN;
@@ -42,41 +42,41 @@ io.sockets.on('connection', function (socket) {
 			var slackMessage = "";
 			for (item in ccData.items){
 				slackMessage += "Someone bought a "+ccData.items[item].name+" for $"+ccData.items[item].price+"!\n";
-				doc.useServiceAccountAuth(creds, function (err) {
-					doc.addRow(1, extend(ccData.items[item],{time:dateFormat(now, "m/dd/yyyy H:MM:ss")}), function(err) {
+				(function(rowData){doc.useServiceAccountAuth(creds, function (err) {
+					doc.addRow(1, extend(rowData,{time:dateFormat(now, "m/dd/yyyy H:MM:ss")}), function(err) {
 						if(err) {
 							console.log(err);
 						}
 					});
-				});
+				})})(ccData.items[item]);
 			}
 			for (item in ccData.buyitems){
-				slackMessage += "Someone sold a "+ccData.items[item].name+" for $"+ccData.items[item].price+"!\n";
-				doc.useServiceAccountAuth(creds, function (err) {
-					doc.addRow(3, extend(ccData.items[item],{time:dateFormat(now, "m/dd/yyyy H:MM:ss")}), function(err) {
+				slackMessage += "Someone sold a "+ccData.buyitems[item].name+" for $"+ccData.buyitems[item].price+"!\n";
+				(function(rowData){doc.useServiceAccountAuth(creds, function (err) {
+					doc.addRow(3, extend(rowData,{time:dateFormat(now, "m/dd/yyyy H:MM:ss")}), function(err) {
 						if(err) {
 							console.log(err);
 						}
 					});
-				});
+				})})(ccData.buyitems[item]);
 			}
 			for (item in ccData.orders){
-				doc.useServiceAccountAuth(creds, function (err) {
-					doc.addRow(2, extend(ccData.orders[item],{time:dateFormat(now, "m/dd/yyyy H:MM:ss")}), function(err) {
+				(function(rowData){doc.useServiceAccountAuth(creds, function (err) {
+					doc.addRow(2, extend(rowData,{time:dateFormat(now, "m/dd/yyyy H:MM:ss")}), function(err) {
 						if(err) {
 							console.log(err);
 						}
 					});
-				});
+				})})(ccData.orders[item]);
 			}
 			for (item in ccData.buyorders){
-				doc.useServiceAccountAuth(creds, function (err) {
-					doc.addRow(4, extend(ccData.orders[item],{time:dateFormat(now, "m/dd/yyyy H:MM:ss")}), function(err) {
+				(function(rowData){doc.useServiceAccountAuth(creds, function (err) {
+					doc.addRow(4, extend(rowData,{time:dateFormat(now, "m/dd/yyyy H:MM:ss")}), function(err) {
 						if(err) {
 							console.log(err);
 						}
 					});
-				});
+				})})(ccData.buyorders[item]);
 			}
 			web.chat.postMessage({ channel: conversationId, text: slackMessage })
 				.then((res) => {

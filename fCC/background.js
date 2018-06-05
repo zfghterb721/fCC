@@ -36,7 +36,7 @@ $("#checkout_button").click(function(){
 		if($('#pos').attr("class") == "pos"){
 		productData.orders.push({orderID:orderID,cash:cash,card:card,account:account,check:check,name:name,email:email,phone:phone,balance:credit,customerID:customerID});
 		}
-		if($('#pos').attr("class") == "pos"){
+		if($('#pos').attr("class") == "buy_order_pos"){
 		productData.buyorders.push({orderID:orderID,cash:cash,card:card,account:account,check:check,name:name,email:email,phone:phone,balance:credit,customerID:customerID});
 		}
 		socket.emit('message',JSON.stringify(productData));
