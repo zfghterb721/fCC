@@ -1,7 +1,7 @@
 console.log("Hey");
 var socket = io.connect('http://localhost:80');
 $("#checkout_button").click(function(){
-	var productData = {items:[],orders:[]};
+	var productData = {items:[],orders:[],buyitems:[],buyorders:[]};
 	$(".editable_line_item_form").children().children().each(function() {
 		var name = $(this).find('.li_name').children('span').html();
 		if(name == null) name = $(this).find('.li_name').children('input').val();
@@ -13,8 +13,12 @@ $("#checkout_button").click(function(){
 		if(productID) productID = productID.substring(productID.search('products/')+9,productID.search('/activity'));
 		var condition = $(this).find('.li_name').find(".variant_selector").children("option").text();
 		var orderID = $(location).attr('href').substring($(location).attr('href').search("orders/")+7, $(location).attr('href').search("/edit"));
-		productData.items.push({name:name,condition:condition,qty:qty,price:price,discount:discount,sub:sub,productID:productID,orderID:orderID});
-			});
+		if($('#pos').attr("class") == "pos"){
+		productData.items.push({name:name,condition:condition,qty:qty,price:price,discount:discount,sub:sub,productID:productID,orderID:orderID});}
+		if($('#pos').attr("class") == "buy_order_pos"){
+		productData.buyitems.push({name:name,condition:condition,qty:qty,price:price,discount:discount,sub:sub,productID:productID,orderID:orderID});
+		}
+			});	
 			
 		var orderID = $(location).attr('href').substring($(location).attr('href').search("orders/")+7, $(location).attr('href').search("/edit"));
 		var cash = $("#pay_by_cash_amount").val();
@@ -29,7 +33,12 @@ $("#checkout_button").click(function(){
 		if($("a.edit_customer").siblings("a").attr('href')){
 			customerID = $("a.edit_customer").siblings("a").attr('href').replace("https://alvarandhurriks-admin.crystalcommerce.com/customers/","").replace("/edit","");
 		}
+		if($('#pos').attr("class") == "pos"){
 		productData.orders.push({orderID:orderID,cash:cash,card:card,account:account,check:check,name:name,email:email,phone:phone,balance:credit,customerID:customerID});
+		}
+		if($('#pos').attr("class") == "pos"){
+		productData.buyorders.push({orderID:orderID,cash:cash,card:card,account:account,check:check,name:name,email:email,phone:phone,balance:credit,customerID:customerID});
+		}
 		socket.emit('message',JSON.stringify(productData));
 
 });
