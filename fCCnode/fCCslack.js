@@ -25,6 +25,7 @@ app.listen(80);
 
 io.sockets.on('connection', function (socket) {
 		socket.on('message', function (message) {
+			console.log(message);
 			ccData = JSON.parse(message);
 			var slackMessage = "";
 			for (item in ccData.items){
@@ -35,8 +36,6 @@ io.sockets.on('connection', function (socket) {
 
 				})
 				.catch(console.error);
-			
-			     console.log(message);
 			});
 
     });
